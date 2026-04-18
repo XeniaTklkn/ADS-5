@@ -5,20 +5,20 @@
 #include "tstack.h"
 
 namespace {
-    int priority(char op) {
-        switch (op) {
-            case '(': return 0;
-            case ')': return 1;
-            case '+': case '-': return 2;
-            case '*': case '/': return 3;
-            default: return -1;
-        }
-    }
-
-    bool isOperator(char c) {
-        return c == '+' || c == '-' || c == '*' || c == '/';
+int priority(char op) {
+    switch (op) {
+        case '(': return 0;
+        case ')': return 1;
+        case '+': case '-': return 2;
+        case '*': case '/': return 3;
+        default: return -1;
     }
 }
+
+bool isOperator(char c) {
+    return c == '+' || c == '-' || c == '*' || c == '/';
+}
+} // namespace
 
 std::string infx2pstfx(const std::string& inf) {
     std::string post;
@@ -80,7 +80,8 @@ int eval(const std::string& post) {
     std::string token;
 
     while (iss >> token) {
-        if (std::isdigit(token[0]) || (token.length() > 1 && token[0] == '-' && std::isdigit(token[1]))) {
+        if (std::isdigit(token[0]) || (token.length() > 1 &&
+            token[0] == '-' && std::isdigit(token[1]))) {
             stack.push(std::stoi(token));
         } else if (token.length() == 1 && isOperator(token[0])) {
             int op2 = stack.get(); stack.pop();
